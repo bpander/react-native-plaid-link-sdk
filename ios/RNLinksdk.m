@@ -179,9 +179,12 @@ RCT_EXPORT_METHOD(dismiss) {
 }
 
 - (void)dismissLinkViewController {
-    [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-    self.presentingViewController = nil;
-    self.linkHandler = nil;
+    BOOL isPlaidModalOpen = self.presentingViewController != nil && RCTPresentedViewController() != self.presentingViewController;
+    if (isPlaidModalOpen) {
+        [self.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+        self.presentingViewController = nil;
+        self.linkHandler = nil;
+    }
 }
 
 - (PLKLinkTokenConfiguration *)getLinkTokenConfiguration:(NSDictionary *)configuration
